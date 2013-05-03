@@ -35,10 +35,10 @@ var x = new Collector(function(err) {
 			var key = link + ":" + source_address + ":" + target_address;
 
 			if (addrssFlows[key] == null) {
-				addrssFlows[key] = packet['dPkts'];
+				addrssFlows[key] = packet['packages'];
 			} else {
 				var value = addrssFlows[key];
-				addrssFlows[key] = packet['dPkts'] + value;
+				addrssFlows[key] = packet['packages'] + value;
 			}
 		}
 	}

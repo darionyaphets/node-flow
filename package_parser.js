@@ -27,8 +27,7 @@ var package_parser = function(message) {
 			this.header.engine_id = buffer.readUInt8(21);
 			this.header.sampling_interval = buffer.readUInt16BE(22);
 		} else {
-			throw new Error("Packet is " + msg.length
-					+ " bytes long, too short to be a netflow version 5 packet");
+			return;
 		}
 
 		var packages = [];
@@ -61,23 +60,9 @@ var package_parser = function(message) {
 				next_hop += buffer.readUInt8(offset + 11).toString();
 				flow['nexthop'] = next_hop;
 
-				flow['dPkts'] = buffer.readUInt32BE(offset + 16);
+				flow['packages'] = buffer.readUInt32BE(offset + 16);
 				flow['count'] = buffer.readUInt32BE(offset + 20);
 
-				// flow.input = buffer.readUInt16BE(offset + 12);
-				// flow.output = buffer.readUInt16BE(offset + 14);
-				// flow.first = buffer.readUInt32BE(offset + 24);
-				// flow.last = buffer.readUInt32BE(offset + 28);
-				// flow.srcport = buffer.readUInt16BE(offset + 32);
-				// flow.dstport = buffer.readUInt16BE(offset + 34);
-				// flow.pad1 = buffer.readUInt8(offset + 36);
-				// flow.tcp_flags = buffer.readUInt8(offset + 37);
-				// flow.prot = buffer.readUInt8(offset + 38);
-				// flow.tos = buffer.readUInt8(offset + 39);
-				// flow.src_as = buffer.readUInt16BE(offset + 40);
-				// flow.dst_as = buffer.readUInt16BE(offset + 42);
-				// flow.src_mask = buffer.readUInt8(offset + 44);
-				// flow.dst_mask = buffer.readUInt8(offset + 45);
 				packages[index] = flow;
 			}
 		}
